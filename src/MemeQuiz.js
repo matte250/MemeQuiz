@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import './App.css';
 import './bootstrap.min.css';
 import PropTypes from 'prop-types';
+import _ from 'underscore'
+
+const props = {a: 5,b: 7};
 
 class MemeQuiz extends Component {
   render() {
@@ -12,9 +15,12 @@ class MemeQuiz extends Component {
           Meme Quiz
         </div>
         <div>
-          <Sum a={5} b={"a"} />
+
+          <Sum {...props} />
         </div>
         <ClickCount />
+        <Clicker handleClick={(letter, second) => {console.log(`${letter} ${second} clicked`);}}/>
+        <ClickyButtons numberOfButtons={99} onSelection={console.log}/>
       </div>
     );
   }
@@ -45,6 +51,23 @@ class ClickCount extends React.Component {
       button</button> has been clicked {this.state.clicks} times.
   </div>
   }
+}
+
+class Clicker extends React.Component {
+  render(){
+    return <div>
+      <button onClick={(e) => {this.props.handleClick('A', 'Meme');}}>A</button>
+      <button onClick={(e) => {this.props.handleClick('B', 'Lord');}}>B</button>
+      <button onClick={(e) => {this.props.handleClick('C', 'Hah');}}>C</button>
+    </div>
+  }
+}
+
+function ClickyButtons({numberOfButtons, onSelection}){
+  const makeButton = v => <button key={v} id={v} onClick={event => onSelection(event.target.id)}>{v}</button>
+  return <div>
+    {_.range(1, numberOfButtons + 1).map(makeButton)}
+  </div>;
 }
 
 export default MemeQuiz;
