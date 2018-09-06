@@ -21,6 +21,20 @@ class MemeQuiz extends Component {
         <ClickCount />
         <Clicker handleClick={(letter, second) => {console.log(`${letter} ${second} clicked`);}}/>
         <ClickyButtons numberOfButtons={99} onSelection={console.log}/>
+
+        <label
+          htmlFor="name"
+          className="badge"
+          style={{
+            backgroundColor: "pink",
+            color: "white"
+          }}
+          >
+          Foo bar
+          </label>
+          
+          <DangerContainer text={"<strong>oH hErRo</strong>"}/>
+
       </div>
     );
   }
@@ -60,6 +74,13 @@ class Clicker extends React.Component {
       <button onClick={(e) => {this.props.handleClick('B', 'Lord');}}>B</button>
       <button onClick={(e) => {this.props.handleClick('C', 'Hah');}}>C</button>
     </div>
+  }
+}
+
+class DangerContainer extends React.Component {
+
+  render(){
+    return <span dangerouslySetInnerHTML={{__html:this.props.text}}></span>
   }
 }
 
