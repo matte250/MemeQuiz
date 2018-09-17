@@ -5,90 +5,64 @@ import './bootstrap.min.css';
 import PropTypes from 'prop-types';
 import _ from 'underscore'
 
-const props = {a: 5,b: 7};
-
-class MemeQuiz extends Component {
-  render() {
-    return (
-      <div>
-        <div>
-          Meme Quiz
-        </div>
-        <div>
-
-          <Sum {...props} />
-        </div>
-        <ClickCount />
-        <Clicker handleClick={(letter, second) => {console.log(`${letter} ${second} clicked`);}}/>
-        <ClickyButtons numberOfButtons={99} onSelection={console.log}/>
-
-        <label
-          htmlFor="name"
-          className="badge"
-          style={{
-            backgroundColor: "pink",
-            color: "white"
-          }}
-          >
-          Foo bar
-          </label>
-          
-          <DangerContainer text={"<strong>oH hErRo</strong>"}/>
-
+function Hero() {
+  return (
+    <div className="row">
+      <div className="jumbotron col-10 offset-1">
+        <h1>Meme Quiz</h1>
+        <p>Select a meme</p>
       </div>
-    );
-  }
-}
-
-class Sum extends React.Component {
-  render() {
-    return <h1>
-      {this.props.a} + {this.props.b} = {this.props.a + this.props.b} also fk u mum
-    </h1>
-  }
-}
-
-Sum.propTypes = {
-  a: PropTypes.number.isRequired,
-  b: PropTypes.number.isRequired,
-}
-
-class ClickCount extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { clicks: 0 };
-  }
-
-  render() {
-    return <div>
-      This <button onClick={() => { this.setState({ clicks: this.state.clicks + 1 }); }}>
-      button</button> has been clicked {this.state.clicks} times.
-  </div>
-  }
-}
-
-class Clicker extends React.Component {
-  render(){
-    return <div>
-      <button onClick={(e) => {this.props.handleClick('A', 'Meme');}}>A</button>
-      <button onClick={(e) => {this.props.handleClick('B', 'Lord');}}>B</button>
-      <button onClick={(e) => {this.props.handleClick('C', 'Hah');}}>C</button>
     </div>
-  }
+  )
 }
 
-class DangerContainer extends React.Component {
-
-  render(){
-    return <span dangerouslySetInnerHTML={{__html:this.props.text}}></span>
-  }
+function Awnser({awnser}) {
+  return (
+    <div className="awnser">
+    <h4>{awnser}</h4>
+    </div>
+  )
 }
 
-function ClickyButtons({numberOfButtons, onSelection}){
-  const makeButton = v => <button key={v} id={v} onClick={event => onSelection(event.target.id)}>{v}</button>
-  return <div>
-    {_.range(1, numberOfButtons + 1).map(makeButton)}
-  </div>;
+function Turn({meme, awnsers}){
+  return(
+    <div className="row turn" style={{backgroundColor: "white"}}>
+      <div className="col-4 offset-1 authorimageparent">
+        <img src={meme.imageUrl} className="authorimage" alt="meme"/>
+      </div>
+      <div className="col-6">
+        <h2>What statement about {meme.name} is true?</h2>
+        {awnsers.map((awnser) => <Awnser awnser={awnser} key={awnser}/>)}
+      </div>
+    </div>
+  );
+}
+function Continue(){
+  return(<div/>);
+}
+
+function Footer() {
+  return(
+    <div id="footer" className="row">
+      <div className="col-12">
+        <p className="text-muted credit">
+          You mum a gay, donald pls <a href="www.pornhub.com">gooby</a> iz a zuc
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function MemeQuiz({turnData}) {
+    return (
+      <div className="container-fluid">
+      {console.log(turnData)}
+        <Hero />
+        <Turn {...turnData}/>
+        <Continue />
+        <Footer />
+      </div>
+    )
 }
 
 export default MemeQuiz;
